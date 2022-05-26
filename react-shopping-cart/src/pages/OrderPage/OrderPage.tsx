@@ -1,27 +1,22 @@
+import { useSelector } from "react-redux";
+
 import PaymentContainer from "component/@shared/PaymentContainer/PaymentContainer";
 import PaymentPageHeader from "component/@shared/PaymentPageHeader/PaymentPageHeader";
 import OrderLeftSection from "component/Order/OrderLeftSection/OrderLeftSection";
 
-import { ROUTE_PATH } from "constants/index";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { deleteOrderStart } from "redux/orders/orders.action";
 import { selectCurrentOrders } from "redux/orders/orders.selector";
 import { ColumnFlexWrapper } from "styles/Wrapper";
 import { OrderPageContent } from "pages/OrderPage/OrderPage.style";
 import { calculatePaymentCost } from "util/calculate";
+import { useSmingPayment } from "sming-payments";
 
 function OrderPage() {
+  const { toggleModal } = useSmingPayment();
   const orders = useSelector(selectCurrentOrders);
-  const ordersIdList = orders.map((order) => order.id);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const totalPaymentCost = calculatePaymentCost(orders);
 
   const handleOrderButtonClick = () => {
-    dispatch(deleteOrderStart(ordersIdList));
-    window.alert("주문이 완료되었습니다");
-    navigate(ROUTE_PATH.ROOT);
+    toggleModal();
   };
 
   return (

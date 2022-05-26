@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { Provider } from "react-redux";
 import { store, persistor } from "redux/store";
+import { SmingModalProvider } from "sming-payments";
 
 import App from "./App";
 import ErrorBoundary from "component/Wrapper/ErrorBoundary/ErrorBoundary";
@@ -29,10 +30,12 @@ root.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ErrorBoundary fallback={<div>에러입니다.</div>}>
-          <GlobalStyle />
-          <ThemeProvider theme={theme}>
-            <App />
-          </ThemeProvider>
+          <SmingModalProvider>
+            <GlobalStyle />
+            <ThemeProvider theme={theme}>
+              <App />
+            </ThemeProvider>
+          </SmingModalProvider>
         </ErrorBoundary>
       </PersistGate>
     </Provider>
